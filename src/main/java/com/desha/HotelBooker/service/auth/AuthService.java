@@ -7,4 +7,5 @@ import com.desha.HotelBooker.domain.entity.User;
 public interface AuthService {
     void createAdminAccount();
     UserDto createUser(SignUpRequest request);
+
 }
