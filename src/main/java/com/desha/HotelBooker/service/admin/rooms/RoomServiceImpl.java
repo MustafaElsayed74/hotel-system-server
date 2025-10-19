@@ -40,7 +40,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public RoomResponseDto getAllRooms(int pageNumber) {
-        Pageable pageable = PageRequest.of(pageNumber,6);
+        Pageable pageable = PageRequest.of(pageNumber, 6);
 
         Page<Room> roomPage = roomRepository.findAll(pageable);
 
@@ -53,11 +53,26 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    public boolean updateRoom(Long id, RoomDto roomDto) {
+        Optional<Room> optionalRoom = roomRepository.findById(id);
+        if (optionalRoom.isPresent()) {
+
+            Room room = optionalRoom.get();
+            room.setName(roomDto.getName());
+            room.setType(roomDto.getType());
+            room.setPrice(roomDto.getPrice());
+            roomRepository.save(room);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public RoomDto getRoomById(Long id) {
         Optional<Room> room = roomRepository.findById(id);
-        if(room.isPresent()){
+        if (room.isPresent()) {
             return room.get().getRoomDto();
-        }else{
+        } else {
             throw new EntityNotFoundException("Room not found.");
         }
     }

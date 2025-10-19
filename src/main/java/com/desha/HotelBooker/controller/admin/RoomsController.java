@@ -42,4 +42,13 @@ public class RoomsController {
         }
     }
 
+    @PutMapping("room/{id}")
+    public ResponseEntity<?> updateRoom(@PathVariable Long id,@RequestBody RoomDto roomDto) {
+        boolean success = roomService.updateRoom(id, roomDto);
+        if(success){
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
 }
