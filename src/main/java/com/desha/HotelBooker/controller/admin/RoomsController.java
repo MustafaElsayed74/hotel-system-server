@@ -2,6 +2,7 @@ package com.desha.HotelBooker.controller.admin;
 
 import com.desha.HotelBooker.domain.dto.RoomDto;
 import com.desha.HotelBooker.service.admin.rooms.RoomService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,21 @@ public class RoomsController {
     }
 
     @GetMapping("/rooms/{pageNumber}")
-    public ResponseEntity<?>  getAllRooms(@PathVariable int pageNumber){
+    public ResponseEntity<?> getAllRooms(@PathVariable int pageNumber) {
         return ResponseEntity.ok(roomService.getAllRooms(pageNumber));
-    };
+    }
+
+    ;
+
+    @GetMapping("room/{id}")
+    public ResponseEntity<?> getRoom(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(roomService.getRoomById(id));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong");
+        }
+    }
+
 }
