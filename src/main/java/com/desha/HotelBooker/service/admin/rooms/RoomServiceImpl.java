@@ -76,4 +76,14 @@ public class RoomServiceImpl implements RoomService {
             throw new EntityNotFoundException("Room not found.");
         }
     }
+
+    @Override
+    public void deleteRoom(Long id) {
+        Optional<Room> room = roomRepository.findById(id);
+        if (room.isPresent()) {
+            roomRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("Room not found.");
+        }
+    }
 }

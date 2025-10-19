@@ -37,18 +37,29 @@ public class RoomsController {
             return ResponseEntity.ok(roomService.getRoomById(id));
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }catch(Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something went wrong");
         }
     }
 
     @PutMapping("room/{id}")
-    public ResponseEntity<?> updateRoom(@PathVariable Long id,@RequestBody RoomDto roomDto) {
+    public ResponseEntity<?> updateRoom(@PathVariable Long id, @RequestBody RoomDto roomDto) {
         boolean success = roomService.updateRoom(id, roomDto);
-        if(success){
+        if (success) {
             return ResponseEntity.status(HttpStatus.OK).build();
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+
+    @DeleteMapping("room/{id}")
+    public ResponseEntity<?> deleteRoom(@PathVariable Long id) {
+        try {
+            roomService.deleteRoom(id);
+            return ResponseEntity.ok(null);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
 }
