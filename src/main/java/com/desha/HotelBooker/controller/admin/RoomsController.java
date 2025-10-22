@@ -1,7 +1,7 @@
 package com.desha.HotelBooker.controller.admin;
 
 import com.desha.HotelBooker.domain.dto.RoomDto;
-import com.desha.HotelBooker.service.admin.rooms.RoomService;
+import com.desha.HotelBooker.service.admin.rooms.RoomsService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class RoomsController {
 
-    private final RoomService roomService;
+    private final RoomsService roomService;
 
     @PostMapping("/room")
     public ResponseEntity<?> createRoom(@RequestBody RoomDto roomDto) {

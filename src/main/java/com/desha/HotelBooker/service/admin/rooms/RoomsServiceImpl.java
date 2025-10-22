@@ -4,7 +4,6 @@ import com.desha.HotelBooker.domain.dto.RoomDto;
 import com.desha.HotelBooker.domain.dto.RoomResponseDto;
 import com.desha.HotelBooker.domain.entity.Room;
 import com.desha.HotelBooker.repository.RoomRepository;
-import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -13,11 +12,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class RoomServiceImpl implements RoomService {
+public class RoomsServiceImpl implements RoomsService {
 
     private final RoomRepository roomRepository;
 
@@ -29,7 +27,7 @@ public class RoomServiceImpl implements RoomService {
             room.setName(roomDto.getName());
             room.setType(roomDto.getType());
             room.setPrice(roomDto.getPrice());
-            room.setAvailable(true);
+            room.setAvailable(false);
 
             roomRepository.save(room);
             return true;
@@ -81,7 +79,7 @@ public class RoomServiceImpl implements RoomService {
     public void deleteRoom(Long id) {
         Optional<Room> room = roomRepository.findById(id);
         if (room.isPresent()) {
-            roomRepository.deleteById(id);
+            roomRepository.delete(room.get());
         } else {
             throw new EntityNotFoundException("Room not found.");
         }
